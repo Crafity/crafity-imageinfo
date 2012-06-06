@@ -1,0 +1,36 @@
+{
+	"name": "imageinfo",
+	"description": "Get ImageInfo",
+	"version": "0.0.1",
+	"author": "Bart Riemens <briemens@crafity.com>",
+	"contributors": [
+		{
+			"name": "Bart Riemens",
+			"email": "briemens@crafity.com"
+		},
+		{
+			"name": "Jacob Seidelin",
+			"email": "jseidelin@nihilogic.dk"
+		}
+	],
+	"licenses": [
+		{
+			"type": "MIT"
+		}
+	],
+	"engine": [
+		"node >=0.1.90"
+	],
+	"main": "imageinfo",
+	"_id": "imageinfo@0.0.1",
+	"dependencies": {},
+	"devDependencies": {},
+	"optionalDependencies": {},
+	"engines": {
+		"node": "*"
+	},
+	"_engineSupported": true,
+	"_npmVersion": "1.1.23",
+	"_nodeVersion": "v0.6.18",
+	"_defaultsLoaded": true
+}
