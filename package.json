@@ -56,7 +56,7 @@
 		"crafity-jstest": "*"
 	},
 	"engines": {
-		"node": ">=0.1.90"
+		"node": "*"
 	},
 	"scripts": {
 		"prepublish": "npm prune",
