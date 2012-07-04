@@ -2,7 +2,7 @@
 
 ##Sample Code
 
-	var imageinfo = require('imageinfo');
+	var imageinfo = require('crafity-imageinfo');
 	imageinfo.readInfoFromFile("image.jpg", function (err, data) {
 		if (err) { return console.error(err); }
 		console.log(data);
