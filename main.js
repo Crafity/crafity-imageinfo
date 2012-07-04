@@ -3,22 +3,45 @@
  *   Based on the JavaScript library from Jacon Seidelin
  * Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/
  * Copyright (c) 2012 Bart Riemens, briemens@crafity.com, http://crafity.com/
+ * Copyright (c) 2012 Galina Slavova, galina@crafity.com, http://crafity.com/
  * MIT License [http://www.nihilogic.dk/licenses/mit-license.txt]
  */
 
+/**
+ * Module dependencies.
+ */
 var ImageInfo = exports
-	, fs = require('fs');
+	, fs = require('fs')
+//	, EXIF = require('./lib/exif')
+	;
+
+/**
+ * Framework name.
+ */
+exports.fullname = 'crafity.imageinfo';
+
+/**
+ * Framework version.
+ */
+exports.version = '0.0.1';
+
+/**
+ * Initialize module
+ */
 
 function DataReader(buffer) {
 	this.getByteAt = function (index) {
 		return buffer[index];
 	};
+
 	this.getBytesAt = function (iOffset, iLength) {
 		return buffer.slice(iOffset, iOffset + iLength);
 	};
+
 	this.getLength = function () {
 		return buffer.length;
 	};
+
 	this.getShortAt = function (iOffset, bBigEndian) {
 		var iShort = bBigEndian ?
 			(this.getByteAt(iOffset) << 8) + this.getByteAt(iOffset + 1)
@@ -26,6 +49,7 @@ function DataReader(buffer) {
 		if (iShort < 0) iShort += 65536;
 		return iShort;
 	};
+
 	this.getLongAt = function (iOffset, bBigEndian) {
 		var iByte1 = this.getByteAt(iOffset),
 			iByte2 = this.getByteAt(iOffset + 1),
@@ -38,6 +62,7 @@ function DataReader(buffer) {
 		if (iLong < 0) iLong += 4294967296;
 		return iLong;
 	};
+
 	this.getSLongAt = function (iOffset, bBigEndian) {
 		var iULong = this.getLongAt(iOffset, bBigEndian);
 		if (iULong > 2147483647)
@@ -47,6 +72,7 @@ function DataReader(buffer) {
 	};
 
 	this.getStringAt = function (iOffset, iLength) {
+
 		var aStr = [];
 
 		var aBytes = this.getBytesAt(iOffset, iLength);
@@ -138,10 +164,10 @@ function readJPEGInfo(data) {
 		if (marker == 0xFFC0) {
 			h = data.getShortAt(offset + 3, true);
 			w = data.getShortAt(offset + 5, true);
-			comps = data.getByteAt(offset + 7, true)
+			comps = data.getByteAt(offset + 7, true);
 			break;
 		} else {
-			offset += data.getShortAt(offset, true)
+			offset += data.getShortAt(offset, true);
 		}
 	}
 
@@ -159,10 +185,11 @@ function readJPEGInfo(data) {
 		bpp: comps * 8,
 		alpha: false,
 		exif: exif
-	}
+	};
 }
 
 function readBMPInfo(data) {
+
 	var w = data.getLongAt(18);
 	var h = data.getLongAt(22);
 	var bpp = data.getShortAt(28);
@@ -174,18 +201,25 @@ function readBMPInfo(data) {
 		bpp: bpp,
 		alpha: false,
 		exif: {}
-	}
+	};
 }
 
 ImageInfo.readInfoFromFile = function (path, callback) {
+	console.log("path", path);
 	fs.readFile(path, function (err, buffer) {
+
 		if (err) { return callback(err); }
 		var result;
+
+		console.log("No Error in reading fule!");
+
 		try {
+
 			result = readInfoFromData(new DataReader(buffer));
 		} catch (err) {
 			return callback(err)
 		}
-		return callback(null, result)
+
+		return callback(null, result);
 	});
 };

@@ -1,36 +1,66 @@
 {
-	"name": "imageinfo",
-	"description": "Get ImageInfo",
+	"name": "crafity-imageinfo",
+	"description": "Get image info",
 	"version": "0.0.1",
-	"author": "Bart Riemens <briemens@crafity.com>",
-	"contributors": [
+	"author": "Galina Slavova <galina@crafity.com>",
+	"homepage": "https://github.com/Crafity/crafity-imageinfo/wiki",
+	"keywords": [ "util", "image", "info", "imageinfo" ],
+	"maintainers": [
 		{
 			"name": "Bart Riemens",
-			"email": "briemens@crafity.com"
+			"email": "briemens@crafity.com",
+			"web": "http://crafity.com/about/bart"
+		},
+		{
+			"name": "Galina Slavova",
+			"email": "galina@crafity.com",
+			"web": "http://crafity.com/about/galina"
+		}
+	],
+	"contributors": [
+		{
+			"name": "Galina Slavova",
+			"email": "galina@crafity.com",
+			"web": "http://crafity.com/about/galina"
+		},
+		{
+			"name": "Bart Riemens",
+			"email": "briemens@crafity.com",
+			"web": "http://crafity.com/about/bart"
 		},
 		{
 			"name": "Jacob Seidelin",
 			"email": "jseidelin@nihilogic.dk"
 		}
 	],
+	"main": "./main.js",
+	"directories": {
+		"lib": "lib",
+		"test": "test"
+	},
 	"licenses": [
 		{
-			"type": "MIT"
+			"type": "The MIT License",
+			"url": "https://github.com/Crafity/crafity-imageinfo/blob/master/LICENSE"
 		}
 	],
-	"engine": [
-		"node >=0.1.90"
+	"bugs": "https://github.com/Crafity/crafity-imageinfo/issues",
+	"repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/Crafity/crafity-imageinfo.git"
+		}
 	],
-	"main": "imageinfo",
-	"_id": "imageinfo@0.0.1",
-	"dependencies": {},
-	"devDependencies": {},
-	"optionalDependencies": {},
-	"engines": {
-		"node": "*"
+	"dependencies": {
+		"crafity-filesystem": "*",
+		"crafity-jstest": "*"
 	},
-	"_engineSupported": true,
-	"_npmVersion": "1.1.23",
-	"_nodeVersion": "v0.6.18",
-	"_defaultsLoaded": true
+	"engines": {
+		"node": ">=0.1.90"
+	},
+	"scripts": {
+		"prepublish": "npm prune",
+		"test": "./runtests"
+	}
 }
+
