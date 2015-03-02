@@ -238,12 +238,8 @@ function readBMPInfo(data) {
 ImageInfo.readInfoFromFile = function (path, callback) {
 	console.log("path", path);
 	fs.open(path, 'r', null, function (err, fd) {
-
 		if (err) { return callback(err); }
 		var result;
-
-		console.log("No Error in reading fule!");
-
 		try {
 			result = readInfoFromData(new DataReader(fd));
 		} catch (err) {
