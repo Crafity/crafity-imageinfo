@@ -12,7 +12,7 @@
  */
 var ImageInfo = exports
 	, fs = require('fs')
-//	, EXIF = require('./lib/exif')
+	, EXIF = require('./lib/exif')
 	;
 
 /**
