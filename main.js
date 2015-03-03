@@ -1,3 +1,5 @@
+/*jshint node:true*/
+"use strict";
 /*
  * ImageInfo 0.1.2 - A Node Module for reading image metadata.
  *   Based on the JavaScript library from Jacon Seidelin
@@ -76,7 +78,7 @@ function DataReader(fd) {
 	this.getShortAt = function (iOffset, bBigEndian) {
 		var iShort = bBigEndian ?
 			(this.getByteAt(iOffset) << 8) + this.getByteAt(iOffset + 1)
-			: (this.getByteAt(iOffset + 1) << 8) + this.getByteAt(iOffset)
+			: (this.getByteAt(iOffset + 1) << 8) + this.getByteAt(iOffset);
 		if (iShort < 0) iShort += 65536;
 		return iShort;
 	};
@@ -96,10 +98,11 @@ function DataReader(fd) {
 
 	this.getSLongAt = function (iOffset, bBigEndian) {
 		var iULong = this.getLongAt(iOffset, bBigEndian);
-		if (iULong > 2147483647)
+		if (iULong > 2147483647) {
 			return iULong - 4294967296;
-		else
+		} else {
 			return iULong;
+		}
 	};
 
 	this.getStringAt = function (iOffset, iLength) {
@@ -147,9 +150,9 @@ function readPNGInfo(data) {
 	var ct = data.getByteAt(25);
 
 	var bpp = bpc;
-	if (ct == 4) bpp *= 2;
-	if (ct == 2) bpp *= 3;
-	if (ct == 6) bpp *= 4;
+	if (ct === 4) { bpp *= 2; }
+	if (ct === 2) { bpp *= 3; }
+	if (ct === 6) { bpp *= 4; }
 
 	var alpha = data.getByteAt(25) >= 4;
 
@@ -161,7 +164,7 @@ function readPNGInfo(data) {
 		bpp: bpp,
 		alpha: alpha,
 		exif: {}
-	}
+	};
 }
 
 function readGIFInfo(data) {
@@ -179,7 +182,7 @@ function readGIFInfo(data) {
 		bpp: bpp,
 		alpha: false,
 		exif: {}
-	}
+	};
 }
 
 function readJPEGInfo(data) {
@@ -192,7 +195,7 @@ function readJPEGInfo(data) {
 	while (offset < len) {
 		var marker = data.getShortAt(offset, true);
 		offset += 2;
-		if (marker == 0xFFC0) {
+		if (marker === 0xFFC0) {
 			h = data.getShortAt(offset + 3, true);
 			w = data.getShortAt(offset + 5, true);
 			comps = data.getByteAt(offset + 7, true);
@@ -204,7 +207,7 @@ function readJPEGInfo(data) {
 
 	var exif = {};
 
-	if (typeof EXIF != "undefined" && EXIF.readFromBinaryFile) {
+	if (typeof EXIF !== "undefined" && EXIF.readFromBinaryFile) {
 		exif = EXIF.readFromBinaryFile(data);
 	}
 
@@ -236,17 +239,16 @@ function readBMPInfo(data) {
 }
 
 ImageInfo.readInfoFromFile = function (path, callback) {
-	console.log("path", path);
 	fs.open(path, 'r', null, function (err, fd) {
 		if (err) { return callback(err); }
 		var result;
 		try {
 			result = readInfoFromData(new DataReader(fd));
 		} catch (err) {
-			return callback(err)
+			return callback(err);
 		}
 		fs.close(fd, function (err) {
-			if (err) console.log("Closing file failed for:", path);
+			if (err) { console.log("Closing file failed for:", path); }
 		});
 		return callback(null, result);
 	});
