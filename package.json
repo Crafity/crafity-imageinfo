@@ -1,7 +1,7 @@
 {
 	"name": "crafity-imageinfo",
 	"description": "Get image info",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": "Galina Slavova <galina@crafity.com>",
 	"homepage": "https://github.com/Crafity/crafity-imageinfo/wiki",
 	"keywords": [ "util", "image", "info", "imageinfo" ],
