@@ -1,3 +1,5 @@
+/*jshint node:true*/
+"use strict";
 /*!
  * crafity.filesystem.test - Filesystem tests
  * Copyright(c) 2011 Crafity
@@ -9,16 +11,14 @@
 /**
  * Test dependencies.
  */
-var jstest = require('crafity-jstest')
-	, assert = jstest.assert
-	, context = jstest.createContext()
-	, fs = require('crafity-filesystem')
-	, main = require('../main.js')
-	;
+var jstest = require('crafity-jstest');
+var assert = jstest.assert;
+var context = jstest.createContext();
+var fs = require('crafity-filesystem');
+var main = require('../main.js');
 
 // Print out the name of the test module
 console.log("Testing 'main.js' in crafity-imageinfo... ");
-console.log("main", main);
 
 /**
  * The tests
@@ -47,7 +47,6 @@ var tests = {
 
 		fs.readFile("./package.json", function (err, data) {
 			var json = JSON.parse(data.toString());
-			console.log("package.version =", json.version);
 
 			assert.isDefined(json.version, "Expected fs to be defined");
 			assert.areEqual(main.version, json.version, "Expected the same module version!");
@@ -58,9 +57,6 @@ var tests = {
 
 		main.readInfoFromFile("./test/data/crafity.png", function (err, data) {
 			if (err) { return console.error(err); }
-
-//			console.log(data);
-//			console.log("data.toString()", data.toString());
 
 			assert.isDefined(data, "Expected data to be defined");
 			assert.areEqual(data.format.toUpperCase(), "png".toUpperCase(), "Expected PNG format!");
