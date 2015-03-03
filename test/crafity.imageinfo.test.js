@@ -67,6 +67,16 @@ var tests = {
 		});
 	},
 
+	'crafity.imageinfo must be able to read images larger than 2MB': function () {
+
+		main.readInfoFromFile("./test/data/lisbon.jpg", function (err, data) {
+			if (err) { return console.error(err); }
+
+			assert.isDefined(data, "Expected data to be defined");
+			assert.areEqual(data.format.toUpperCase(), "JPEG".toUpperCase(), "Expected JPEsG format!");
+		});
+	},
+
 	'crafity.imageinfo must read github_logo image of type jpg': function () {
 
 		main.readInfoFromFile("./test/data/github_logo.jpg", function (err, data) {
