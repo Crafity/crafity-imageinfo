@@ -29,17 +29,48 @@ exports.version = '0.0.1';
  * Initialize module
  */
 
-function DataReader(buffer) {
+function DataReader(fd) {
+	var BUFFER_INCREMENT = 4096;
+	var _readBuffer = new Buffer(BUFFER_INCREMENT);
+	var _readBytes = 0;
+	var _fileStats = fs.fstatSync(fd);
+
+	/**
+	 * Read bytes from file descriptor until we may return data
+	 * from requested index.
+	 *
+	 * @param index Index where from data is going to be read.
+	 * @param length Number of bytes that are required after index.
+	 */
+	function fetchDataIfNeeded(index, length) {
+		if (_fileStats.size < index + length) {
+			throw new Error("Unexpected end of file.");
+		}
+		while (index + length > _readBytes) {
+			// grow buffer if needed
+			if (_readBytes === _readBuffer.length) {
+				_readBuffer = Buffer.concat(
+					[_readBuffer, new Buffer(0)],
+					_readBuffer.length + BUFFER_INCREMENT);
+			}
+			_readBytes += fs.readSync(
+				fd, _readBuffer, _readBytes,
+				_readBuffer.length - _readBytes);
+		}
+	}
+
 	this.getByteAt = function (index) {
-		return buffer[index];
+		fetchDataIfNeeded(index, 1);
+		return _readBuffer[index];
 	};
 
 	this.getBytesAt = function (iOffset, iLength) {
-		return buffer.slice(iOffset, iOffset + iLength);
+		fetchDataIfNeeded(iOffset, iLength);
+		return _readBuffer.slice(iOffset, iOffset + iLength);
 	};
 
 	this.getLength = function () {
-		return buffer.length;
+		return _fileStats.size;
 	};
 
 	this.getShortAt = function (iOffset, bBigEndian) {
@@ -206,20 +237,17 @@ function readBMPInfo(data) {
 
 ImageInfo.readInfoFromFile = function (path, callback) {
 	console.log("path", path);
-	fs.readFile(path, function (err, buffer) {
-
+	fs.open(path, 'r', null, function (err, fd) {
 		if (err) { return callback(err); }
 		var result;
-
-		console.log("No Error in reading fule!");
-
 		try {
-
-			result = readInfoFromData(new DataReader(buffer));
+			result = readInfoFromData(new DataReader(fd));
 		} catch (err) {
 			return callback(err)
 		}
-
+		fs.close(fd, function (err) {
+			if (err) console.log("Closing file failed for:", path);
+		});
 		return callback(null, result);
 	});
 };
