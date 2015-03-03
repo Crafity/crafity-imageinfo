@@ -59,7 +59,9 @@ var tests = {
 			if (err) { return console.error(err); }
 
 			assert.isDefined(data, "Expected data to be defined");
-			assert.areEqual(data.format.toUpperCase(), "png".toUpperCase(), "Expected PNG format!");
+			assert.areEqual("png".toUpperCase(), data.format.toUpperCase(), "Expected PNG format!");
+			assert.areEqual(398, data.width, "Expected width 320px !");
+			assert.areEqual(179, data.height, "Expected height 320px !");
 		});
 	},
 
@@ -82,7 +84,9 @@ var tests = {
 //			console.log("data.toString()", data.toString());
 
 			assert.isDefined(data, "Expected data to be defined");
-			assert.areEqual(data.format.toUpperCase(), "jpeg".toUpperCase(), "Expected PNG format!");
+			assert.areEqual("jpeg".toUpperCase(), data.format.toUpperCase(), "Expected JPG format!");
+			assert.areEqual(320, data.width, "Expected width 320px !");
+			assert.areEqual(320, data.height, "Expected height 320px !");
 		});
 	},
 
