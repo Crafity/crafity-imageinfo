@@ -12,7 +12,7 @@
  */
 var ImageInfo = exports
 	, fs = require('fs')
-//	, EXIF = require('./lib/exif')
+	, EXIF = require('./lib/exif')
 	;
 
 /**
@@ -192,7 +192,7 @@ function readJPEGInfo(data) {
 	while (offset < len) {
 		var marker = data.getShortAt(offset, true);
 		offset += 2;
-		if (marker == 0xFFC0) {
+		if (marker == 0xFFC0 || marker == 0xFFC2) {
 			h = data.getShortAt(offset + 3, true);
 			w = data.getShortAt(offset + 5, true);
 			comps = data.getByteAt(offset + 7, true);
